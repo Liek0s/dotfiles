@@ -1,0 +1,66 @@
+Xft.autohint:   0
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+URxvt.font:	xft:Terminus (TTF):style=Regular:pixelsize=14
+URxvt.boldfont: xft:Terminus (TTF):style=Bold:pixelsize=14
+
+!URxvt.termName: rxvt
+URxvt.perl-ext-common:		default,matcher
+!URxvt.tabbed.no-tabbedex-keys:	yes
+!URxvt.keysym.Control-t:		perl:tabbedex:new_tab
+!URxvt.keysym.Control-Tab:	perl:tabbedex:next_tab
+!URxvt.keysym.Control-Shift-Tab: perl:tabbedex:prev_tab
+URxvt.url-launcher:		/usr/bin/chromium
+!URxvt.matcher.button: 1
+URxvt.transparent: false
+URxvt.inheritPixmap: false
+URxvt.scrollBar: false
+URxvt.savelines: 1000
+URxvt.cursorBlink: true
+URxvt.geometry: 93x50
+! URxvt.fading: 25%
+
+URxvt.depth: 32
+URxvt.background: #1A1A1A
+URxvt.foreground: white
+URxvt.borderLess: false
+
+! vim: set filetype=xdefaults :
+*foreground: #D7D0C7
+*background: #151515
+
+!black
+! *color0:     #AF875F
+! *color8:     #AF875F
+*color0:     #101010
+*color8:     #404040
+!red
+*color1:     #E84F4F
+*color9:     #D23D3D
+!green
+*color2:     #B8D68C
+*color10:    #A0CF5D
+!yellow
+*color3:     #E1AA5D
+*color11:    #F39D21
+!blue
+*color4:     #7DC1CF
+*color12:    #4E9FB1
+!magenta
+*color5:     #9B64FB
+*color13:    #8542FF
+!cyan
+*color6:     #6D878D
+*color14:    #42717B
+!white
+*color7:     #dddddd
+*color15:    #dddddd
+
+URxvt*cursorColor:        #1793D1
+URxvt*cursorColor2:       #FFFFFF
+URxvt.cursorUnderline:	  1
+
+!--------------------!
+
