@@ -62,17 +62,27 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='emacsclient -t'
+else
+  export EDITOR='emacsclient -t'
+fi
+
+# Init python virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/workspace
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
+source /usr/bin/virtualenvwrapper.sh 
+
+# set TMUX on shell login
+# [[ $- != *i* ]] && return 
+# [[ -z "$TMUX" ]] && exec tmux
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -83,10 +93,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/workspace
-source /usr/bin/virtualenvwrapper.sh 
-
 alias emacs="emacsclient -t"
 alias ne="emacs"
 
@@ -96,6 +102,9 @@ alias py3="python3"
 
 # Keybindings
 typeset -g -A key
-bindkey '^[Oc' forward-word
-bindkey '^[Od' backward-word
+# bindkey '^[OC' forward-word
+# bindkey '^[OD' backward-word
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
