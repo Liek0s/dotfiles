@@ -35,15 +35,15 @@
 
 urxvt*font:	 	xft:Inconsolata:pixelsize=15:antialias=true:hinting=true
 
-URxvt.perl-ext-common:  default,tabbedex,clipboard
+URxvt.perl-ext-common:  default,tabbedex,clipboard,vtwheel
 URxvt.scrollBar: 	false
-URxvt.iso14755: 	false
+URxvt.iso14755: 	False
 
 URxvt.tabbed.no-tabbedex-keys: true
+URxvt.tabbed.reopen-on-close: yes
 URxvt.keysym.Control-t: perl:tabbedex:new_tab
 URxvt.keysym.Control-Tab: perl:tabbedex:next_tab
 URxvt.keysym.Control-Shift-Tab: perl:tabbedex:prev_tab
-
 
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
