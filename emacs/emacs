@@ -1,0 +1,298 @@
+;;; package --- Emacs init file
+;;; author --- jack
+;;; Commentary:
+;;; 
+;;; 
+;;; 
+;;; Code:
+
+
+(setq user-full-name "Pierre Jackman"
+      user-login-name "Jack"
+      user-mail-address "jackman.pierre@gmail.com")
+
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+(setq scroll-conservatively 10000
+      scroll-preserve-screen-position t)
+
+(transient-mark-mode 1)
+(when (functionp 'menu-bar-mode)
+  (menu-bar-mode -1))
+
+(line-number-mode 1)
+(column-number-mode 1)
+(setq line-move-visual t)
+(setq make-pointer-invisible t)
+(setq-default fill-column 80)
+(setenv "PAGER" "cat")
+
+(global-set-key (kbd "C-c \\") 'query-replace)
+
+;; (global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
+;; (global-set-key "\M-[1;5D"    'backward-word)  
+
+
+
+;; -----------------------------------------------------------------------------
+;; PACKAGES
+;; -----------------------------------------------------------------------------
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(add-to-list 'load-path "/home/jack/.emacs.d/local/")
+(add-to-list 'load-path "/home/jack/.emacs.d/local/emacs-async/")
+(add-to-list 'load-path "/home/jack/.emacs.d/local/helm/")
+
+;; -----------------------------------------------------------------------------
+;; THEME
+;; -----------------------------------------------------------------------------
+;; (load-theme 'firecode t) ;; Main theme
+;; (load-theme 'molokai t)
+;; (load-theme 'hipster t)
+(load-theme 'monokai t)
+;; (load-theme 'atom-dark t)
+
+(require 'smart-mode-line)
+(setq sml/no-confirm-load-theme t)
+(sml/setup) ;; Smart mode line
+
+;; -----------------------------------------------------------------------------
+;; UTILITIES
+;; -----------------------------------------------------------------------------
+(require 'linum)
+(require 'linum-off)
+(setq linum-format "%4d ")
+(global-linum-mode 1)
+
+
+(require 'smartparens)
+(require 'smartparens-config)
+(add-hook 'prog-mode-hook 'turn-on-smartparens-mode)
+
+(global-highlight-parentheses-mode t)
+
+(require 'neotree)
+(global-set-key (kbd "M-'") 'neotree-toggle)
+(custom-set-faces
+ '(col-highlight ((t (:background "blue"))))
+ '(hl-line ((t (:background "#1A1A1A")))) ;
+ '(lazy-highlight ((t (:background "black" :foreground "white" :underline t))))
+ '(neo-dir-link-face ((t (:foreground "brightblue" :weight bold))))
+ '(neo-file-link-face ((t (:foreground "white"))))
+ '(neo-root-dir-face ((t (:foreground "#FF1493" :weight bold))))
+ '(neo-header-face ((t (:foreground "#FF1493" :weight bold)))))
+
+(custom-set-variables)
+
+(require 'helm)
+(require 'helm-config)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x y") 'helm-show-kill-ring)
+;; C-x d open folder helm
+(helm-mode 1)
+(helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 30)
+(setq helm-autoresize-min-height 30)
+(setq helm-split-window-in-side-p t)
+(helm-adaptative-mode 1)
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-highlighting-mode 'lines)
+(define-key flycheck-mode-map (kbd "C-c ]") #'flycheck-next-error)
+(define-key flycheck-mode-map (kbd "C-c [") #'flycheck-previous-error)
+(eval-after-load 'flycheck
+  '(define-key flycheck-mode-map (kbd "C-c l") 'helm-flycheck))
+
+
+(require 'projectile)
+(require 'helm-projectile)
+(projectile-global-mode)
+(helm-projectile-on)
+(setq projectile-completion-system 'helm)
+(setq projectile-switch-project-action 'helm-projectile-all-dired-buffers)
+
+
+(global-set-key (kbd "C-<up>")  (lambda () (interactive) (scroll-up   4)) )
+(global-set-key (kbd "C-<down>")  (lambda () (interactive) (scroll-down 4)) )
+
+;; -----------------------------------------------------------------------------
+;; Buffers
+;; -----------------------------------------------------------------------------
+
+(defun next-code-buffer (buffer-scroll-func)
+  "Only scroll through BUFFER-SCROLL-FUNC selected buffers."
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (funcall buffer-scroll-func)
+    (while
+	(and
+	 (string-match-p "^\*" (buffer-name))
+	 (not ( equal bread-crumb (buffer-name) )) )
+      (funcall buffer-scroll-func))))
+
+
+(defun my-next-buffer ()
+  "Switch to next relevant buffer."
+  (interactive)
+  (next-code-buffer 'next-buffer))
+
+(defun my-previous-buffer ()
+  "Doc."
+  (interactive)
+  (next-code-buffer 'previous-buffer))
+
+(global-set-key [remap next-buffer] 'my-next-buffer)
+(global-set-key [remap previous-buffer] 'my-previous-buffer)
+
+;; -----------------------------------------------------------------------------
+;; Autocompletion
+;; -----------------------------------------------------------------------------
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-to-list 'company-backends 'company-anaconda)
+
+(define-key company-mode-map [remap indent-for-tab-command]
+  'company-indent-for-tab-command)
+
+(setq tab-always-indent 'complete)
+;; (defvar completion-at-point-functions-saved nil)
+
+(defun company-indent-for-tab-command (&optional arg)
+  (interactive "P")
+  (let ((completion-at-point-functions-saved completion-at-point-functions)
+	(completion-at-point-functions '(company-complete-common-wrapper)))
+    (indent-for-tab-command arg)))
+
+(defun company-complete-common-wrapper ()
+  (let ((completion-at-point-functions completion-at-point-functions-saved))
+    (company-complete-common)))
+
+;;
+;;
+;;
+
+(setq c-default-style "linux" c-basic-offset 4)
+
+;; -----------------------------------------------------------------------------
+;; Python
+;; -----------------------------------------------------------------------------
+(require 'virtualenvwrapper)
+(add-hook 'python-mode-hook 'anaconda-mode)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
+(setq venv-location "/home/jack/.virtualenvs/")
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
+(defun my-python-mode-hook ()
+  "Set .local-dir variables for virtualenvs and current PYTHONPATH."
+  (hack-local-variables)
+  (when (boundp 'project-venv-name)
+    (venv-workon project-venv-name)))
+
+(require 'python)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args ""
+      python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+      python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+      python-shell-completion-setup-code
+      "from IPython.core.completerlib import module_completion"
+      python-shell-completion-module-string-code
+      "';'.join(module_completion('''%s'''))\n"
+      python-shell-completion-string-code
+      "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+
+
+;; -----------------------------------------------------------------------------
+;; Web JS/HTML/CSS
+;; -----------------------------------------------------------------------------
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-hook 'js2-mode-hook #'flycheck-mode)
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(defun my-web-mode-hook ()
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (seirtq web-mode-enable-current-element-highlight t)
+  (setq tab-always-indent nil)
+  )
+
+(add-hook 'web-mode-hook 'my-web-mode-hook)
+;; (setq web-mode-enable-current-column-highlight t)
+
+
+;; ----------------------------------------------------------------------------
+;; MARKDOWN
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;; -----------------------------------------------------------------------------
+;; CUSTOM FACES
+;; -----------------------------------------------------------------------------
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-preview ((t (:background "#303030" :foreground "#FFFFFF"))))
+ '(company-preview-common ((t (:background nil :foreground "#FFFFFF"))))
+ '(company-scrollbar-bg ((t (:background "#353535"))))
+ '(company-scrollbar-fg ((t (:background "yellow"))))
+ '(company-tooltip ((t (:background "#303030" :foreground "#FFFFFF"))))
+ '(company-tooltip-annotation ((t nil)))
+ '(company-tooltip-common ((t (:foreground "#FFFFFF" :background "#303030" :underline nil))))
+ '(company-tooltip-common-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
+ '(company-tooltip-mouse ((t nil)))
+ '(company-tooltip-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
+ '(flycheck-error ((t (:foreground "red" :weight bold :underline nil))))
+ '(flycheck-info ((t (:foreground "green" :weight bold :underline nil))))
+ '(flycheck-warning ((t (:foreground "orange" :weight bold :underline nil))))
+ '(helm-ff-directory ((t (:foreground "brightblue"))))
+ '(helm-ff-dotted-directory ((t (:foreground "brightblue"))))
+ '(helm-ff-invalid-symlink ((t (:foreground "red" :slant italic))))
+ '(helm-match ((t (:foreground "blue" :background nil))))
+ '(helm-selection ((t (:background "#303030" :foreground "blue" :underline nil :weight bold))))
+ '(helm-selection-line ((t (:background "#303030" :foreground "blue" :underline nil))))
+ '(helm-source-header ((t (:background "#1A1A1A" :foreground "#FF8C00" :underline nil :weight bold))))
+ '(js2-warning ((t (:foreground "#1A1A1A" :weight bold :underline nil)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-idle-delay 0.1)
+ '(safe-local-variable-values
+   (quote
+    ((eval setenv "PYTHONPATH" "~/workspace/uCloud/ucloud")
+     (eval setenv "PYTHONPATH" "/home/jack/workspace/uCloud/ucloud/")
+     (current-dir . "/home/jack/workspace/uCloud/ucloud")
+     (venv-workon . "ucloud")
+     (project-venv-name . "ucloud"))))
+ '(show-paren-mode t))
+
+
+
+
+
+(provide '.emacs)
+;;; .emacs ends here
+
+
