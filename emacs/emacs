@@ -8,7 +8,7 @@
 
 
 (setq user-full-name "Pierre Jackman"
-      user-login-name "Jack"
+      user-login-name "jack"
       user-mail-address "jackman.pierre@gmail.com")
 
 (prefer-coding-system 'utf-8)
@@ -32,9 +32,11 @@
 
 (global-set-key (kbd "C-c \\") 'query-replace)
 
-;; (global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
-;; (global-set-key "\M-[1;5D"    'backward-word)  
+(global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
+(global-set-key "\M-[1;5D"    'backward-word)  
 
+(global-set-key "\M-[1;5A"    'backward-paragraph)      ; Ctrl+right   => forward word
+(global-set-key "\M-[1;5B"    'forward-paragraph)  
 
 
 ;; -----------------------------------------------------------------------------
@@ -61,14 +63,37 @@
 (setq sml/no-confirm-load-theme t)
 (sml/setup) ;; Smart mode line
 
+(require 'git-gutter)
+(global-git-gutter-mode t)
+(git-gutter:linum-setup)
+(global-set-key (kbd "C-c v") 'git-gutter:stage-hunk)
+
+;; (require 'highlight-indentation)
+(highlight-indentation-mode t)
+;; (set-face-background 'highlight-indentation-face "#151515")
+;; (set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
+
 ;; -----------------------------------------------------------------------------
 ;; UTILITIES
 ;; -----------------------------------------------------------------------------
+
+(setq-default indent-tabs-mode nil)
+
 (require 'linum)
 (require 'linum-off)
 (setq linum-format "%4d ")
 (global-linum-mode 1)
 
+(require 'highlight-current-line)
+(highlight-current-line-on t)
+(set-face-background 'highlight-current-line-face "#151515")
+
+
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+
+;; (global-set-key (kbd "S-<up>")  (lambda () (interactive) (scroll-up   4)))
+;; (global-set-key (kbd "S-<down>")  (lambda () (interactive) (scroll-down 4)))
 
 (require 'smartparens)
 (require 'smartparens-config)
@@ -77,30 +102,69 @@
 (global-highlight-parentheses-mode t)
 
 (require 'neotree)
-(global-set-key (kbd "M-'") 'neotree-toggle)
+(global-set-key (kbd "M-ù") 'neotree-toggle)
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(col-highlight ((t (:background "blue"))))
- '(hl-line ((t (:background "#1A1A1A")))) ;
+ '(company-preview ((t (:background "#303030" :foreground "#FFFFFF"))))
+ '(company-preview-common ((t (:background nil :foreground "#FFFFFF"))))
+ '(company-scrollbar-bg ((t (:background "#353535"))))
+ '(company-scrollbar-fg ((t (:background "yellow"))))
+ '(company-tooltip ((t (:background "#303030" :foreground "#FFFFFF"))))
+ '(company-tooltip-annotation ((t nil)))
+ '(company-tooltip-common ((t (:foreground "#FFFFFF" :background "#303030" :underline nil))))
+ '(company-tooltip-common-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
+ '(company-tooltip-mouse ((t nil)))
+ '(company-tooltip-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
+ '(flycheck-error ((t (:foreground "red" :weight bold :underline nil :background nil))))
+ '(flycheck-info ((t (:foreground "green" :weight bold :underline nil))))
+ '(flycheck-warning ((t (:foreground "orange" :weight bold :underline nil :background nil))))
+ '(helm-ff-directory ((t (:foreground "brightblue"))))
+ '(helm-ff-dotted-directory ((t (:foreground "brightblue"))))
+ '(helm-ff-invalid-symlink ((t (:foreground "red" :slant italic))))
+ '(helm-match ((t (:foreground "blue" :background nil))))
+ '(helm-selection ((t (:background "#303030" :foreground "blue" :underline nil :weight bold))))
+ '(helm-selection-line ((t (:background "#303030" :foreground "blue" :underline nil))))
+ '(helm-source-header ((t (:background "#1A1A1A" :foreground "#FF8C00" :underline nil :weight bold))))
+ '(idle-highlight ((t (:foreground "blue" :weight extra-bold))))
  '(lazy-highlight ((t (:background "black" :foreground "white" :underline t))))
  '(neo-dir-link-face ((t (:foreground "brightblue" :weight bold))))
  '(neo-file-link-face ((t (:foreground "white"))))
- '(neo-root-dir-face ((t (:foreground "#FF1493" :weight bold))))
- '(neo-header-face ((t (:foreground "#FF1493" :weight bold)))))
+ '(neo-header-face ((t (:foreground "#FF1493" :weight bold))))
+ '(neo-root-dir-face ((t (:foreground "#FF1493" :weight bold)))))
 
-(custom-set-variables)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-idle-delay 0.1)
+ '(show-paren-mode t))
 
 (require 'helm)
 (require 'helm-config)
+(require 'helm-swoop)
+
+(global-set-key (kbd "C-s") 'helm-swoop)
+(define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 (global-set-key (kbd "C-x y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-c f") 'helm-projectile-grep)
 ;; C-x d open folder helm
 (helm-mode 1)
 (helm-autoresize-mode 1)
 (setq helm-autoresize-max-height 30)
 (setq helm-autoresize-min-height 30)
 (setq helm-split-window-in-side-p t)
-(helm-adaptative-mode 1)
+(helm-adaptive-mode 1)
+
 
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -118,13 +182,21 @@
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile-all-dired-buffers)
 
+(add-hook 'prog-mode-hook (lambda () (idle-highlight-mode t)))
 
-(global-set-key (kbd "C-<up>")  (lambda () (interactive) (scroll-up   4)) )
-(global-set-key (kbd "C-<down>")  (lambda () (interactive) (scroll-down 4)) )
+(add-hook 'python-mode-hook
+          (lambda()
+            (local-set-key (kbd "C-c +") 'hs-show-block)
+            (local-set-key (kbd "C-c -") 'hs-hide-block)
+            (local-set-key (kbd "C-c RET") 'hs-toggle-hiding)
+            (hs-minor-mode t)))
 
-;; -----------------------------------------------------------------------------
-;; Buffers
-;; -----------------------------------------------------------------------------
+ ;; -----------------------------------------------------------------------------
+ ;; Buffers
+ ;; -----------------------------------------------------------------------------
+
+;; STARTUP
+
 
 (defun next-code-buffer (buffer-scroll-func)
   "Only scroll through BUFFER-SCROLL-FUNC selected buffers."
@@ -156,27 +228,23 @@
 ;; -----------------------------------------------------------------------------
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
-(add-to-list 'company-backends 'company-anaconda)
+(add-to-list 'company-backends 'company-jedi)
 
-(define-key company-mode-map [remap indent-for-tab-command]
-  'company-indent-for-tab-command)
+;; (define-key company-mode-map [remap indent-for-tab-command]
+;;   'company-indent-for-tab-command)
 
-(setq tab-always-indent 'complete)
+;; (setq tab-always-indent 'complete)
 ;; (defvar completion-at-point-functions-saved nil)
 
-(defun company-indent-for-tab-command (&optional arg)
-  (interactive "P")
-  (let ((completion-at-point-functions-saved completion-at-point-functions)
-	(completion-at-point-functions '(company-complete-common-wrapper)))
-    (indent-for-tab-command arg)))
+;; (defun company-indent-for-tab-command (&optional arg)
+;;   (interactive "P")
+;;   (let ((completion-at-point-functions-saved completion-at-point-functions)
+;; 	(completion-at-point-functions '(company-complete-common-wrapper)))
+;;     (indent-for-tab-command arg)))
 
-(defun company-complete-common-wrapper ()
-  (let ((completion-at-point-functions completion-at-point-functions-saved))
-    (company-complete-common)))
-
-;;
-;;
-;;
+;; (defun company-complete-common-wrapper ()
+;;   (let ((completion-at-point-functions completion-at-point-functions-saved))
+;;     (company-complete-common)))
 
 (setq c-default-style "linux" c-basic-offset 4)
 
@@ -184,7 +252,7 @@
 ;; Python
 ;; -----------------------------------------------------------------------------
 (require 'virtualenvwrapper)
-(add-hook 'python-mode-hook 'anaconda-mode)
+;; (add-hook 'python-mode-hook 'anaconda-mode)
 (venv-initialize-interactive-shells)
 (venv-initialize-eshell)
 (setq venv-location "/home/jack/.virtualenvs/")
@@ -196,18 +264,14 @@
   (when (boundp 'project-venv-name)
     (venv-workon project-venv-name)))
 
-(require 'python)
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args ""
-      python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-      python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-      python-shell-completion-setup-code
-      "from IPython.core.completerlib import module_completion"
-      python-shell-completion-module-string-code
-      "';'.join(module_completion('''%s'''))\n"
-      python-shell-completion-string-code
-      "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
+(setq nxml-child-indent 4)
+
+;; (setq tab-stop-list nil)
+
+;; (add-hook 'python-mode-hook '(lambda ()
+;;                                (define-key python-mode-map (kbd "<tab>") 'python-indent-shift-right)
+;;                                (define-key python-mode-map (kbd "S-<tab>") 'python-indent-shift-left)))
 
 ;; -----------------------------------------------------------------------------
 ;; Web JS/HTML/CSS
@@ -247,49 +311,6 @@
 ;; -----------------------------------------------------------------------------
 ;; CUSTOM FACES
 ;; -----------------------------------------------------------------------------
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-preview ((t (:background "#303030" :foreground "#FFFFFF"))))
- '(company-preview-common ((t (:background nil :foreground "#FFFFFF"))))
- '(company-scrollbar-bg ((t (:background "#353535"))))
- '(company-scrollbar-fg ((t (:background "yellow"))))
- '(company-tooltip ((t (:background "#303030" :foreground "#FFFFFF"))))
- '(company-tooltip-annotation ((t nil)))
- '(company-tooltip-common ((t (:foreground "#FFFFFF" :background "#303030" :underline nil))))
- '(company-tooltip-common-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
- '(company-tooltip-mouse ((t nil)))
- '(company-tooltip-selection ((t (:foreground "#FF1493" :background "#303030" :underline nil :weight bold))))
- '(flycheck-error ((t (:foreground "red" :weight bold :underline nil))))
- '(flycheck-info ((t (:foreground "green" :weight bold :underline nil))))
- '(flycheck-warning ((t (:foreground "orange" :weight bold :underline nil))))
- '(helm-ff-directory ((t (:foreground "brightblue"))))
- '(helm-ff-dotted-directory ((t (:foreground "brightblue"))))
- '(helm-ff-invalid-symlink ((t (:foreground "red" :slant italic))))
- '(helm-match ((t (:foreground "blue" :background nil))))
- '(helm-selection ((t (:background "#303030" :foreground "blue" :underline nil :weight bold))))
- '(helm-selection-line ((t (:background "#303030" :foreground "blue" :underline nil))))
- '(helm-source-header ((t (:background "#1A1A1A" :foreground "#FF8C00" :underline nil :weight bold))))
- '(js2-warning ((t (:foreground "#1A1A1A" :weight bold :underline nil)))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-idle-delay 0.1)
- '(safe-local-variable-values
-   (quote
-    ((eval setenv "PYTHONPATH" "~/workspace/uCloud/ucloud")
-     (eval setenv "PYTHONPATH" "/home/jack/workspace/uCloud/ucloud/")
-     (current-dir . "/home/jack/workspace/uCloud/ucloud")
-     (venv-workon . "ucloud")
-     (project-venv-name . "ucloud"))))
- '(show-paren-mode t))
-
-
-
 
 
 (provide '.emacs)
