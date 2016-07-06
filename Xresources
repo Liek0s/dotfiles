@@ -33,17 +33,26 @@
 
 ! - Settings
 
-urxvt*font:	 	xft:Inconsolata:pixelsize=15:antialias=true:hinting=true
+!! xft
+Xft.dpi:		96
+Xft.antialias:		true
+Xft.rgba:		rgb
+Xft.hinting:		true
+Xft.hintstyle:		hintslight
 
-URxvt.perl-ext-common:  default,tabbedex,clipboard,vtwheel
+URxvt*termName: rxvt-unicode
+URxvt.font:		xft:Inconsolata:pixelsize=14
+
+! URxvt.perl-ext-common:  default,tabbedex,clipboard,vtwheel
+
 URxvt.scrollBar: 	false
-URxvt.iso14755: 	False
+URxvt.iso14755: 	false
 
-URxvt.tabbed.no-tabbedex-keys: true
-URxvt.tabbed.reopen-on-close: yes
-URxvt.keysym.Control-t: perl:tabbedex:new_tab
-URxvt.keysym.Control-Tab: perl:tabbedex:next_tab
-URxvt.keysym.Control-Shift-Tab: perl:tabbedex:prev_tab
+! URxvt.tabbed.no-tabbedex-keys: true
+! URxvt.tabbed.reopen-on-close: yes
+! URxvt.keysym.Control-t: perl:tabbedex:new_tab
+! URxvt.keysym.Control-Tab: perl:tabbedex:next_tab
+! URxvt.keysym.Control-Shift-Tab: perl:tabbedex:prev_tab
 
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
