@@ -40,9 +40,9 @@ Xft.rgba:		rgb
 Xft.hinting:		true
 Xft.hintstyle:		hintslight
 
-URxvt*termName: rxvt-unicode
-URxvt.font:		xft:Inconsolata:pixelsize=14
-
+URxvt*termName:         xterm-256color
+! URxvt.font:		xft:Inconsolata:pixelsize=14
+URxvt.font:             xft:GohuFont:style=Regular:pixelsize=14
 ! URxvt.perl-ext-common:  default,tabbedex,clipboard,vtwheel
 
 URxvt.scrollBar: 	false
