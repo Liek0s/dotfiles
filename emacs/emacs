@@ -32,12 +32,6 @@
 
 (global-set-key (kbd "C-c \\") 'query-replace)
 
-;; (global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
-;; (global-set-key "\M-[1;5D"    'backward-word)  
-
-;; (global-set-key "\M-[1;5A"    'backward-paragraph)      ; Ctrl+right   => forward word
-;; (global-set-key "\M-[1;5B"    'forward-paragraph)  
-
 (setq-default tab-stop-list (number-sequence 4 120 4))
 
 ;; -----------------------------------------------------------------------------
@@ -64,8 +58,6 @@
 ;; (load-theme 'hipster t)
 ;; (load-theme 'monokai t)
 ;; (load-theme 'atom-dark t)
-;; (defvar zenburn-override-colors-alist
-;;   '(("zenburn-bg" . "#1A1A1A")))
 ;; (load-theme 'zenburn t)
 ;; (load-theme 'moe-dark t)
 ;; (moe-dark)
@@ -73,6 +65,9 @@
 (require 'smart-mode-line)
 (setq sml/no-confirm-load-theme t)
 (sml/setup) ;; Smart mode line
+
+(require 'hlinum)
+(hlinum-activate)
 
 (require 'git-gutter)
 (global-git-gutter-mode t)
@@ -100,8 +95,8 @@
 (set-face-background 'highlight-current-line-face "#151515")
 
 
-(require 'smooth-scrolling)
-(smooth-scrolling-mode 1)
+;; (require 'smooth-scrolling)
+;; (smooth-scrolling-mode 1)
 
 
 (require 'smartparens)
@@ -194,6 +189,7 @@
             (local-set-key (kbd "C-c +") 'hs-show-block)
             (local-set-key (kbd "C-c -") 'hs-hide-block)
             (local-set-key (kbd "C-c RET") 'hs-toggle-hiding)
+            (local-set-key (kbd "C-c *") 'hs-hide-all)
             (hs-minor-mode t)))
 
  ;; -----------------------------------------------------------------------------
