@@ -1,0 +1,5 @@
+# Load Xresources as it does not seem to load automatically
+xrdb -load /home/jack/.Xresources &
+# Init second monitor
+# TODO: Would be cool to check if monitor exists before doing this
+xrandr --auto --output HDMI1 --mode 1920x1080 --right-of eDP1 &

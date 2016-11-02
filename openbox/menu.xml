@@ -1,0 +1,41 @@
+<openbox_menu>
+<menu id="settings-menu" label="Settings">
+	<item label="Reconfigure">
+		<action name="Execute">
+			<command>openbox --reconfigure</command>
+		</action>
+	</item>
+</menu>
+<menu id="root-menu" label="Openbox 3">
+	<separator label="Launchers"/>
+	<item label="Terminal">
+		<action name="Execute">
+			<command>urxvt</command>
+		</action>
+	</item>
+	<item label="Chromium">
+		<action name="Execute">
+			<command>chromium</command>
+		</action>
+	</item>
+	<separator/>
+	<menu id="settings-menu"/>
+	<separator label="System"/>
+	<item label="Log Out">
+		<action name="Execute">
+			<command>openbox --exit</command>
+		</action>
+	</item>
+	<item label="Reboot">
+		<action name="Execute">
+			<command>systemctl reboot</command>
+		</action>
+	</item>
+	<item label="Shutdown">
+		<action name="Execute">
+			<command>systemctl poweroff</command>
+		</action>
+	</item>
+
+</menu>
+</openbox_menu>
