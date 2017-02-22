@@ -2,54 +2,49 @@
 
 # OPTIONS
 WIDTH=""
-HEIGHT="28"
-FONT=""
+HEIGHT="24"
 
 BDWIDTH="5"
 
-BGCOLOR="#1F1F1F"
+BGCOLOR="#1D1D1D"
 FGCOLOR="#FFAC00"
 BDCOLOR="#D89200"
 
 # functions
 
-# get_current_active_window() {
-    
-# }
-
-get_user() {
-    echo "%{B#333333}%{O10} \ue1f0 $USER %{O10}%{B-}"
-
+get_workspace() {
+    glyph="\ue135"
+    ws_name="$(i3-msg -t get_workspaces | python wsbar 2>/dev/null)"
+    echo "%{B#FFAC00}%{F#1D1D1D} $glyph $ws_name  %{B-}%{F-}%{O20}"
 }
 
-get_workspaces() {
-    local workspaces="%{O15}"
-    while read -r workspace; do
-        set -f
-        glyph="\ue1bc"
-        array=($workspace)
-        if [[ ${array[1]} = "*" ]]; then
-            glyph="\ue1c2"
-        fi
-        workspaces=$workspaces"$glyph%{O5}"
-        unset -f
-    done < <(wmctrl -d) && echo $workspaces
+get_current_song() {
+    glyph="\ue1a6"
+    current_song="$(ncmpcpp --current-song="%t - %a - %b" 2>/dev/null)"
+    if [[ ! -z "$current_song" ]]; then
+        echo "$glyph  %{F#FFF}$current_song%{F-}"
+    fi
+}
+
+get_network() {
+    glyph="\ue046"
+    network="$(iwgetid -r)"
+    if [[ -z "$network" ]]; then
+        echo "\ue21b %{O10}"
+    else
+        echo "$glyph %{F#FFF}$network%{F-}%{O15}" 
+    fi
 }
 
 get_battery() {
-    glyph=""
     current_cap=$(cat /sys/class/power_supply/BAT0/capacity)
     status=$(cat /sys/class/power_supply/BAT0/status)
-    if [[ status -eq 'Discharging' ]]; then
-        glyph="\ue239"
-    elif [[ current_cap -lt 25 ]]; then
-        glyph="\ue236"
-    elif [[ current_cap -gt 25 && current_cap -lt 50 ]]; then
-        glyph="\ue237"
+    if [[ "$status" == "Discharging" ]]; then
+        glyph="\ue20f"
     else
-        glyph="\ue238"
+        glyph="\ue20e"
     fi
-    echo "$glyph $current_cap% %{O15}"
+    echo "$glyph %{F#FFF}$current_cap%{F-} %{O5}"
 }
 
 get_volume() {
@@ -57,34 +52,31 @@ get_volume() {
                             grep -E -o "[0-9]+%" |
                             tail -n 1 | tr -d '%')
     
-    is_mute=$(amixer get Master | grep -o "off")
-
-    if [[ ! -z $is_mute ]]; then
+    if [[ ! -z $(amixer get Master | grep -o "off") ]]; then
         glyph="\ue052"
-    elif [[ current_volume -gt 50 ]]; then
-        glyph="\ue050"
     else
-        glyph="\ue051"
+        glyph="\ue050"
     fi
-    echo "$glyph $current_volume%{O20}"
+    echo "$glyph %{F#FFF}$current_volume%{F-}%{O15}"
 }
 
 get_time() {
-    glyph=""
-    echo "\ue151 $(date +"%H:%M")%{O25}"
+    glyph="\ue0a3"
+    echo "%{F#FFAC00}$glyph %{F#FFF}$(date +"%H:%M:%S")%{F-}%{O15}"
 }
 
 get_date() {
-    glyph=""
-    echo "%{B#333333}  \ue266 $(date +"%A, %b %d")  %{B-}%{O10}"
+    glyph="\ue225"
+    echo "%{B#FFAC00}%{F#000}  $glyph $(date +"%A, %b %d")  %{B-}"
 }
 
 
 draw() {
     while true; do
-        echo -e \
-             "%{Sf}%{l}$(get_user)%{c}$(get_workspaces)%{r}$(get_volume)$(get_battery)$(get_date)$(get_time)" \
-             "%{Sl}%{l}$(get_user)%{c}$(get_workspaces)%{r}$(get_volume)$(get_battery)$(get_date)$(get_time)"
+        left="%{l}$(get_workspace)$(get_current_song)"
+        center="%{c}$(get_time)"
+        right="%{r}$(get_battery)$(get_volume)$(get_network)$(get_date)"
+        echo -e "%{S0}$left$right$center%{S1}$left$right$center"
         sleep 1s;
     done
 }
@@ -95,9 +87,14 @@ main() {
                     -F "$FGCOLOR"              \
                     -U "$BDCOLOR"              \
                     -u "$BDWIDTH"              \
-                    -f "-ypn-envypn-medium-r-normal--13-130-75-75-c-90-iso8859-1"  \
-                    -f "-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
-
+                    -f "-Wuncon-Siji-Medium-R-Normal--10-100-75-75-C-80-ISO10646-1" \
+                    -f "ProFont:size=10"
 }
+
+
+if [ $(pgrep -cx $(basename $0)) -gt 1 ] ; then
+    printf "%s\n" "The status bar is already running." >&2
+    exit 1
+fi
 
 main
