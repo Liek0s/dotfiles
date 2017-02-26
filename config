@@ -1,0 +1,65 @@
+##############################################################
+## This is the example configuration file. Copy it to       ##
+## $HOME/.ncmpcpp/config or $XDG_CONFIG_HOME/ncmpcpp/config ##
+## and set up your preferences.                             ##
+##############################################################
+#
+##### directories ######
+##
+## Directory for storing ncmpcpp related files.
+## Changing it is useful if you want to store
+## everything somewhere else and provide command
+## line setting for alternative location to config
+## file which defines that while launching ncmpcpp.
+##
+#
+ncmpcpp_directory = ~/.config/ncmpcpp/
+#
+##### connection settings #####
+#
+mpd_host = localhost
+mpd_port = 6600
+mpd_music_dir = ~/music
+mpd_connection_timeout = 5
+
+external_editor = "nvim"
+use_console_editor = "yes"
+
+user_interface = "classic"
+header_visibility = "yes"
+
+autocenter_mode = "no"
+centered_cursor = "no"
+cyclic_scrolling = "yes"
+mouse_list_scroll_whole_page = "no"
+
+now_playing_prefix = "$b$4»$9 "
+titles_visibility = "no"
+statusbar_visibility = "yes"
+progressbar_boldness = "yes"
+progressbar_look = "▪▪▫"
+
+song_status_format = "$b{$(190)%t$9} • {$4%a$9} • {$(16)%b}$9$/b"
+song_list_format = "$b$(243)({%l}) ¦$9 $4{%50a}$9 • $(190){%t} $R$(16){%b}$(end)$/b"
+song_columns_list_format = "$L(8f)[243]{l} (15)[4]{a} (25)[190]{t|f} (25)[16]{br}"
+
+screen_switcher_mode = playlist, browser, clock, search_engine
+startup_screen = clock
+clock_display_seconds = "yes"
+
+
+playlist_display_mode = "columns"
+playlist_disable_highlight_delay = "1"
+browser_playlist_prefix = "$b$4Playlist$9$/b » "
+browser_sort_mode = "name"
+
+colors_enabled = "yes"
+progressbar_color = "yellow"
+progressbar_elapsed_color = "190"
+active_column_color = "yellow"
+main_window_color = "190"
+volume_color = "yellow"
+statusbar_color = "16"
+header_window_color = "16"
+state_flags_color = "yellow"
+state_line_color = "16"
