@@ -1,10 +1,7 @@
 !
 ! Author: Pierre Jackman
 
-! hard contrast: *background: #1d2021
-! *background: #282828
 *background: #1A1A1A
-! soft contrast: *background: #32302f
 *foreground: #ebdbb2
 ! Black + DarkGrey
 *color0:  #282828
@@ -31,18 +28,29 @@
 *color7:  #a89984
 *color15: #ebdbb2
 
-! !
-! General Options
-URxvt*termName:     rxvt-unicode-256color
-
-! Font Options
+! ---------- Font Options ------------
+Xft.autohint:       0
 Xft.dpi:		    96
 Xft.antialias:		true
 Xft.rgba:	        rgb
 Xft.hinting:		true
+Xft.lcdfilter:      lcddefault
 Xft.hintstyle:		hintslight
 
-URxvt.font:		    xft:AnonymicePowerline Nerd Font:pixelsize=16:style=Book
+! ---------- General Options ---------
 
-! URxvt.keysym.Shift-Control-C: perl:clipboard:copy
-! URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.iso14755:     false
+URxvt*termName:     rxvt-unicode-256color
+URxvt*geometry:     128x64
+URxvt*loginShell:   false
+URxvt*scrollBar:    false
+
+URxvt*font:		    xft:AnonymicePowerline Nerd Font:pixelsize=16:style=Book
+
+
+URxvt.perl-ext-common:      default,matcher,vtwheel,clipboard
+URxvt.url-launcher:         chromium
+URxvt.url-select.underline: true
+URxvt.matcher.button:       1
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
