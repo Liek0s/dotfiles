@@ -54,3 +54,28 @@ URxvt.url-select.underline: true
 URxvt.matcher.button:       1
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+
+! ----------- ROFI -----------------
+rofi.modi:          run,window,ssh
+rofi.lines:         13
+rofi.width:         36
+
+rofi.font:          mono 12
+
+rofi.color-enabled: true
+rofi.color-window:  #1a1a1a,#333333,#fabd2f
+rofi.color-normal:  #333333,#ebdbb2,#333333,#fabd2f,#1a1a1a
+
+rofi.bw:            3
+rofi.padding:       10
+rofi.terminal:      urxvt
+rofi.ssh-client:   ssh
+
+rofi.cycle:         true
+rofi.sidebar-mode:  true
+
+rofi.eh:            1
+rofi.parse-hosts:   false
+rofi.parse-known-hosts: true
+rofi.line-margin:   1
+rofi.hide-scrollbar: true
