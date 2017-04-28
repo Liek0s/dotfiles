@@ -45,10 +45,10 @@ URxvt*geometry:     128x64
 URxvt*loginShell:   false
 URxvt*scrollBar:    false
 
-URxvt*font:		    xft:AnonymicePowerline Nerd Font:pixelsize=16:style=Book
+URxvt*font:		    xft:AnonymicePowerline Nerd Font:pixelsize=17:style=Book
 
 
-URxvt.perl-ext-common:      default,matcher,vtwheel,clipboard
+URxvt.perl-ext-common:      default,matcher,vtwheel,clipboard,select-to-clipboard
 URxvt.url-launcher:         chromium
 URxvt.url-select.underline: true
 URxvt.matcher.button:       1
