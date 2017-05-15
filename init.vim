@@ -12,6 +12,7 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf', { 'dir': '~/utils/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 
 " Search
 Plug 'eugen0329/vim-esearch'
@@ -86,6 +87,7 @@ let g:esearch = {
     \ 'use':        ['visual', 'hlsearch', 'last'],
     \}
 
+let g:rooter_patterns = ['.root', '.git', '.git/']
 
 hi Search cterm=bold ctermfg=40 ctermbg=NONE
 "
@@ -166,6 +168,8 @@ map w           <Plug>(easymotion-bd-wl)
 " sunmap b
 " sunmap e
 " sunmap ge
+map <Leader>y "*y
+map <Leader>p "*p
 
 " FZF Bindings
 nnoremap <silent>   <C-p> :Files<CR>
