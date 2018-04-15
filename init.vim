@@ -10,7 +10,7 @@ Plug 'bkad/CamelCaseMotion'
 
 " File management
 Plug 'scrooloose/nerdtree'
-Plug 'junegunn/fzf', { 'dir': '~/utils/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.config/fzf', 'do': './install --all --no-fish --no-bash' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
 
