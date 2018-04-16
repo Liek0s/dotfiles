@@ -18,6 +18,18 @@ Plug 'airblade/vim-rooter'
 Plug 'eugen0329/vim-esearch'
 Plug 'majutsushi/tagbar'
 
+" Syntax
+Plug 'neomake/neomake'
+Plug 'tpope/vim-surround'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'elzr/vim-json'
+
+" Comments
+Plug 'scrooloose/nerdcommenter'
+
+" Autocompletion
+Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -25,29 +37,23 @@ Plug 'airblade/vim-gitgutter'
 " HTML/CSS
 Plug 'mattn/emmet-vim'
 
+" YAML
+Plug 'martin-svk/vim-yaml'
+Plug 'digitalrounin/vim-yaml-folds'
+
+"CSV
+Plug 'chrisbra/csv.vim'
+
 " JS
-Plug 'jelera/vim-javascript-syntax'
-Plug 'JavaScript-Indent'
+Plug 'othree/yajs.vim'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 " Python
 Plug 'zchee/deoplete-jedi'
-Plug 'tweekmonster/braceless.vim'
 Plug 'tmhedberg/SimpylFold'
+Plug 'tweekmonster/braceless.vim'
 
-" Autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
-
-
-" Syntax
-Plug 'neomake/neomake'
-Plug 'tpope/vim-surround'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'junegunn/limelight.vim'
-
-" Comments
-Plug 'scrooloose/nerdcommenter'
-
-" VimWiki
+" Utilities
 Plug 'vimwiki/vimwiki'
 
 call plug#end()
@@ -61,9 +67,13 @@ set tabstop=4 shiftwidth=4 expandtab
 set cursorline
 set mouse=a
 
+set foldmethod=syntax
+set foldtext=NeatFoldText()
+
 " Display Settings
+" let g:gruvbox_bold=1
+
 set background=dark
-let g:gruvbox_bold=1
 colorscheme gruvbox
 hi Normal ctermbg=None
 let g:airline_theme='gruvbox'
@@ -74,10 +84,13 @@ let g:fzf_nvim_statusline = 0
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
 
-"
-" File Extensions
-filetype plugin on
-au BufNewFile,BufRead *.ejs set filetype=html
+" #############################
+" Utils
+" #############################
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_off_screen_search = 0
+nmap ; <Plug>(easymotion-s2)
 
 let g:esearch = {
     \ 'adapter':    'ag',
@@ -87,38 +100,24 @@ let g:esearch = {
     \ 'use':        ['visual', 'hlsearch', 'last'],
     \}
 
+let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
+"
+" File Extensions
+filetype plugin on
+au BufNewFile,BufRead *.ejs set filetype=html
+
 let g:rooter_patterns = ['.root', '.git', '.git/']
+
+" Vimwiki
+let g:vimwiki_list = [{'path': '$HOME/.wiki/'}]
+
 
 hi Search cterm=bold ctermfg=40 ctermbg=NONE
 "
 " Autocompletion
 let g:deoplete#enable_at_startup = 1
 autocmd CompleteDone * pclose
-
-" Syntax
-" check syntax on write
-autocmd! BufWritePost * Neomake
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
-" Javascript
-autocmd FileType javascript set tabstop=2 shiftwidth=2 expandtab
-
-" Python
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
-let g:neomake_sh_enabled_makers = ['shellcheck']
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_python_flake8_maker = {
-    \ 'args':
-    \ ['--max-line-length=80', '--ignore=E115,E266,E123,E126,E128'],
-    \ }
-autocmd FileType python BracelessEnable +indent +fold +highlight-cc
 
 " NERDCommenter
 let g:NERDCommentEmptyLines = 1
@@ -127,20 +126,49 @@ let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
-"
-" VimWiki
-let g:vimwiki_list = [
-    \ {'path': '~/workspace/.vimwiki/coog.wiki'},
-    \ ]
+" Syntax
+" check syntax on write
+autocmd! BufWritePost * Neomake
+" let g:limelight_conceal_ctermfg = 'gray'
+" let g:limelight_conceal_ctermfg = 240
 
-au BufRead,BufNewFile *.wiki set filetype=vimwiki
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
+autocmd FileType json set ts=2 sw=2
+
+" ################################
+" Javascript
+" ################################
+autocmd FileType javascript set tabstop=2 shiftwidth=2 expandtab
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+" ################################
+" Python
+" ################################
+autocmd FileType python BracelessEnable +indent +fold +highlight-cc
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
+let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_python_flake8_maker = {
+    \ 'args':
+    \ ['--max-line-length=80', '--ignore=E115,E266,E123,E126,E128'],
+    \ }
+
+" ##################################
+" Bash
+" ##################################
+let g:neomake_sh_enabled_makers = ['shellcheck']
+
+" ##################################
 " Keybindings
+" ##################################
 " Leader = Spacebar
-"
 let mapleader = "\<Space>"
 
-" Disable arrow keys because im hardcore
+" Disable arrow keys
 nmap <up>    <nop>
 nmap <down>  <nop>
 nmap <left>  <nop>
@@ -153,29 +181,38 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " Easymotion keybindings
-map /           <Plug>(easymotion-sn)
+" map /           <Plug>(easymotion-sn)
 map <Leader>j   <Plug>(easymotion-j)
 map <Leader>k   <Plug>(easymotion-k)
 map <Leader>l   <Plug>(easymotion-lineforward)
 map <Leader>h   <Plug>(easymotion-linebackward)
 map w           <Plug>(easymotion-bd-wl)
-" call camelcasemotion#CreateMotionMappings('<leader>')
-" map <silent> w <Plug>CamelCaseMotion_w
-" map <silent> b <Plug>CamelCaseMotion_b
-" map <silent> e <Plug>CamelCaseMotion_e
-" map <silent> ge <Plug>CamelCaseMotion_ge
-" sunmap w
-" sunmap b
-" sunmap e
-" sunmap ge
+
+" Copy / Paste to xclip
 map <Leader>y "*y
 map <Leader>p "*p
 
 " FZF Bindings
-nnoremap <silent>   <C-p> :Files<CR>
-nnoremap <silent>   <C-b> :Buffers<CR>
+nnoremap <silent>   /           :Lines<CR>
+nnoremap <silent>   <C-p>       :Files<CR>
+nnoremap <silent>   <C-b>       :Buffers<CR>
+nnoremap <silent>   <leader>c   :Commits<CR> 
+nnoremap <silent>   <leader>h   :History<CR> 
 
 " NERDTree
 map <Leader>l       :NERDTreeToggle<CR>
+ 
 " Tagbar
 map <Leader>t       :TagbarToggle<CR>
+
+
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
