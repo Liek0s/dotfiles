@@ -37,7 +37,6 @@ Plug 'tmhedberg/SimpylFold'
 " Autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 
-
 " Syntax
 Plug 'neomake/neomake'
 Plug 'tpope/vim-surround'
@@ -62,12 +61,17 @@ set cursorline
 set mouse=a
 
 " Display Settings
-set background=dark
-let g:gruvbox_bold=1
-colorscheme gruvbox
-hi Normal ctermbg=None
-let g:airline_theme='gruvbox'
+let g:gruvbox_bold = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_italics = 1
+" hi Normal ctermbg=None
+let g:gruvbox_termcolors = 256
 let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_hls_cursor = 'yellow'
+let g:gruvbox_invert_selection = 0
+let g:airline_theme='gruvbox'
+colorscheme gruvbox
+set background=dark
 
 set number
 let g:fzf_nvim_statusline = 0
