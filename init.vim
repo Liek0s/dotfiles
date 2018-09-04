@@ -39,7 +39,6 @@ Plug 'mattn/emmet-vim'
 
 " YAML
 Plug 'martin-svk/vim-yaml'
-Plug 'digitalrounin/vim-yaml-folds'
 
 "CSV
 Plug 'chrisbra/csv.vim'
@@ -68,9 +67,6 @@ filetype plugin on
 set tabstop=4 shiftwidth=4 expandtab
 set cursorline
 set mouse=a
-
-set foldmethod=syntax
-set foldtext=NeatFoldText()
 
 " Display Settings
 
@@ -111,14 +107,11 @@ let g:esearch = {
     \ 'use':        ['visual', 'hlsearch', 'last'],
     \}
 
-let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-
 "
 " File Extensions
-filetype plugin on
-au BufNewFile,BufRead *.ejs set filetype=html
-
 let g:rooter_patterns = ['.root', '.git', '.git/']
+
+filetype plugin on
 
 " Vimwiki
 let g:vimwiki_list = [{'path': '$HOME/.wiki/'}]
@@ -154,7 +147,10 @@ autocmd FileType json set ts=2 sw=2
 " Javascript
 " ################################
 autocmd FileType javascript set tabstop=2 shiftwidth=2 expandtab
+autocmd FileType vue set tabstop=2 shiftwidth=2 expandtab
 let g:neomake_javascript_enabled_makers = ['eslint']
+
+let g:vue_disable_pre_processors=1
 
 " ################################
 " Python
@@ -215,15 +211,3 @@ map <Leader>l       :NERDTreeToggle<CR>
  
 " Tagbar
 map <Leader>t       :TagbarToggle<CR>
-
-
-function! NeatFoldText()
-  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-  let lines_count = v:foldend - v:foldstart + 1
-  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-  let foldchar = matchstr(&fillchars, 'fold:\zs.')
-  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-  let foldtextend = lines_count_text . repeat(foldchar, 8)
-  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
