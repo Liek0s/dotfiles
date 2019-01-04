@@ -28,7 +28,9 @@ Plug 'elzr/vim-json'
 Plug 'scrooloose/nerdcommenter'
 
 " Autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -44,14 +46,13 @@ Plug 'martin-svk/vim-yaml'
 Plug 'chrisbra/csv.vim'
 
 " JS
-Plug 'othree/yajs.vim'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'pangloss/vim-javascript'
 Plug 'posva/vim-vue'
-" Plug 'JavaScript-Indent'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 " Python
 Plug 'zchee/deoplete-jedi'
-Plug 'tmhedberg/SimpylFold'
+" Plug 'tmhedberg/SimpylFold'
 Plug 'tweekmonster/braceless.vim'
 
 " VimWiki
@@ -116,12 +117,18 @@ filetype plugin on
 " Vimwiki
 let g:vimwiki_list = [{'path': '$HOME/.wiki/'}]
 
+let g:javascript_plugin_flow = 1
 
 hi Search cterm=bold ctermfg=40 ctermbg=NONE
 "
 " Autocompletion
 let g:deoplete#enable_at_startup = 1
 autocmd CompleteDone * pclose
+
+" Snippets
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " NERDCommenter
 let g:NERDCommentEmptyLines = 1
@@ -132,9 +139,7 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " Syntax
 " check syntax on write
-autocmd! BufWritePost * Neomake
-" let g:limelight_conceal_ctermfg = 'gray'
-" let g:limelight_conceal_ctermfg = 240
+call neomake#configure#automake('nrwi', 500)
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -155,7 +160,6 @@ let g:vue_disable_pre_processors=1
 " ################################
 " Python
 " ################################
-autocmd FileType python BracelessEnable +indent +fold +highlight-cc
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
 let g:neomake_python_enabled_makers = ['flake8']
@@ -163,6 +167,10 @@ let g:neomake_python_flake8_maker = {
     \ 'args':
     \ ['--max-line-length=80', '--ignore=E115,E266,E123,E126,E128'],
     \ }
+
+autocmd FileType python BracelessEnable +indent +fold
+
+call esearch#map('<leader>ff', 'esearch')
 
 " ##################################
 " Bash
@@ -196,8 +204,8 @@ map <Leader>h   <Plug>(easymotion-linebackward)
 map w           <Plug>(easymotion-bd-wl)
 
 " Copy / Paste to xclip
-map <Leader>y "*y
-map <Leader>p "*p
+map <Leader>y   "*y
+map <Leader>p   "*p
 
 " FZF Bindings
 nnoremap <silent>   /           :Lines<CR>
