@@ -52,11 +52,11 @@ URxvt.url-launcher:         firefox
 URxvt.url-select.underline: true
 URxvt.matcher.button:       1
 
-URxvt*font:         xft:Iosevka,Iosevka Medium:pixelsize=17:style=Medium, Regular
+URxvt*font:         xft:Iosevka:size=11:style=Regular
 
 ! ---------- Font Options ------------
 Xft.autohint:       0
-Xft.dpi:		    96
+! Xft.dpi:		    96
 Xft.antialias:		true
 Xft.rgba:	        rgb
 Xft.hinting:		true
@@ -66,7 +66,7 @@ Xft.hintstyle:		hintslight
 ! ----------- ROFI -----------------
 rofi.combi-modi:    window,drun,ssh
 rofi.theme:         gruvbox-dark-hard
-! rofi.font:          pango:Iosevka Bold 16px
+rofi.font:          pango:Iosevka 15px
 rofi.modi:          combi
 rofi.lines:         12
 rofi.width:         30
