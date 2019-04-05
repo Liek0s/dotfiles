@@ -52,7 +52,7 @@ URxvt.url-launcher:         firefox
 URxvt.url-select.underline: true
 URxvt.matcher.button:       1
 
-URxvt*font:         xft:Iosevka:size=11:style=Regular
+URxvt*font:         xft:Iosevka:size=12:style=Regular
 
 ! ---------- Font Options ------------
 Xft.autohint:       0
