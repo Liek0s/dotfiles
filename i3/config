@@ -4,8 +4,6 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
-
-#
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 
@@ -27,8 +25,6 @@ client.background       $UNFOCUS
 for_window [class="^.*"] border pixel 4
 new_window pixel 22
 new_float pixel 4
-# smart_borders on
-# smart_gaps on
 
 # GAPS
 set $default_gaps_inner 10
@@ -38,27 +34,14 @@ gaps outer $default_gaps_outer
 
 focus_follows_mouse no
 
-
 ### AUTOSTART ### 
-# set the keyboard layout to AZERTY
-exec --no-startup-id setxkbmap fr -option caps:escape
+exec --no-startup-id bash "$HOME/.config/i3/autostart"
 
-# set a wallpaper
-exec --no-startup-id sh ~/.fehbg
-
-# startd urxvt daemon
-exec --no-startup-id urxvtd -o -f -q
-
-# call bootstrap script
-exec --no-startup-id sh ~/.bootstrap.sh
-
-# run polybar
-exec --no-startup-id polybar main
 
 ### SCRATCHPAD ###
-for_window [instance="__scratchpad"] move scratchpad
 exec --no-startup-id urxvt -name __scratchpad
 
+for_window [instance="__scratchpad"] move scratchpad
 bindsym F1 scratchpad show
 
 ### KEYBINDINGS ###

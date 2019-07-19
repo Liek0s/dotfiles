@@ -2,6 +2,9 @@
 ! Author: Pierre Jackman
 !
 ! ---------- COLORS ---------
+! gruvbox: https://github.com/morhetz/gruvbox
+! gruvbox-contrib: https://github.com/morhetz/gruvbox-contrib
+!
 ! hard contrast:
 ! *background:              #1d2021
 ! soft contrast: 
@@ -42,7 +45,7 @@ URxvt*geometry:             128x64
 URxvt*loginShell:           false
 URxvt*scrollBar:            false
 
-URxvt.perl-ext-common:      default,matcher,vtwheel,clipboard,select-to-clipboard
+URxvt.perl-ext-common:      default,matcher
 URxvt.url-launcher:         firefox
 URxvt.url-select.underline: true
 URxvt.matcher.button:       1
