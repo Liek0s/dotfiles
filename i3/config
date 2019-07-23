@@ -42,7 +42,7 @@ exec --no-startup-id bash "$HOME/.config/i3/autostart"
 exec --no-startup-id urxvt -name __scratchpad
 
 for_window [instance="__scratchpad"] move scratchpad
-bindsym F1 scratchpad show
+bindsym $mod+F1 scratchpad show
 
 ### KEYBINDINGS ###
 set $mod Mod4 
