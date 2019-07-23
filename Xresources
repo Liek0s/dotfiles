@@ -52,7 +52,8 @@ URxvt.matcher.button:       1
 
 ! ---------- FONT  ------------
 
-URxvt*font:                 xft:Iosevka, Iosevka Nerd Font:style=Regular,Book:size=12
+URxvt.font:                 xft:Iosevka Term, Iosevka Nerd Font:style=Regular:pixelsize=10
+URxvt.boldFont:             xft:Iosevka Term, Iosevka Nerd Font:style=Bold:pixelsize=10
 
 Xft.autohint:		        0
 Xft.antialias:		        true
