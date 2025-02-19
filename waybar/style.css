@@ -1,0 +1,101 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Iosevka, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: #222436; 
+  border-bottom: none;
+  color: #c0caf5;
+}
+
+tooltip {
+  background: rgba(43, 48, 59, 0.5);
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+tooltip label {
+  color: white;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background: transparent;
+  color: #c0caf5;
+  border-bottom: 1px solid #c0caf5;
+}
+
+#workspaces button.focused {
+  background: #4E5173;
+  border-bottom: 3px solid #E0AF68;
+}
+
+#battery, #network, #backlight, #wireplumber {
+  padding: 0 12px;
+}
+
+#clock {
+  padding: 0 22px;
+  background-color: #4E5173;
+  border-bottom: 3px solid #9ECE6A;
+}
+
+#battery {
+  background-color: transparent;
+  color: #c0caf5;
+  border-bottom: 3px solid #F7768E;
+}
+
+#custom-vpn {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 3px solid #E0AF68;
+}
+
+#custom-vpn.focused {
+  background: #4E5173;
+  border-bottom: 3px solid #E0AF68;
+}
+
+@keyframes blink {
+  to {
+    background-color: #ffffff;
+    color: black;
+  }
+}
+
+#battery.warning:not(.charging) {
+  background: #f53c3c;
+  color: white;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#network {
+  background-color: transparent;
+  color: #c0caf5;
+  border-bottom: 3px solid #7AA2F7;
+}
+
+#backlight {
+  background-color: transparent;
+  color: #c0caf5;
+  border-bottom: 3px solid #56B6C2;
+}
+
+#wireplumber {
+  background-color: transparent;
+  color: #c0caf5;
+  border-bottom: 3px solid #9A7ECC;
+}
+
+#wireplumber.muted {
+  color: #F7768E;
+  border-bottom: 3px solid #9A7ECC;
+}

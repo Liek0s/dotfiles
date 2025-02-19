@@ -1,0 +1,78 @@
+// vim: ft=json
+{
+    "layer": "top",
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 24, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 2, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/vpn", "wireplumber", "backlight", "network", "battery"],
+    // Modules configuration
+    //     "all-outputs": true,
+    //     "warp-on-scroll": false,
+    //     "format": "{name}: {icon}",
+    //     "format-icons": {
+    //         "1": "",
+    //         "2": "",
+    //         "3": "",
+    //         "4": "",
+    //         "5": "",
+    //         "urgent": "",
+    //         "focused": "",
+    //         "default": ""
+    //     }
+    // },
+    "clock": {
+        "timezone": "Europe/Paris",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "󰃠    {percent}%",
+        "on-click": "brightnessctl set +10%",
+        "on-click-right": "brightnessctl set 10%-",
+        "on-scroll-up": "brightnessctl set +1%",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "battery": {
+        "states": {
+          "full": 100,
+          "good": 80,
+          "warning": 30,
+          "critical": 10,
+        },
+        "format": "{icon}   {capacity}%",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-full-chargin": "",
+        "format-icons": ["󰁺", "󰁼", "󰁾", "", ""]
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "    {essid} ({signalStrength}%)",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "wireplumber": {
+      "format": "{icon}   {volume}%",
+      "format-muted": "󰖁",
+      "states": {
+        "off": 0,
+        "down": 25,
+        "up": 40,
+      },
+      "format-icons": ["󰕿", "󰖀", "󰕾"],
+      "tooltip": false,
+      "on-click": "amixer set Master toggle",
+    },
+    "custom/vpn": {
+      "format": " 󱘖  ",
+      "on-click": "bash $HOME/.config/rofi/rofi-openforti-otp.sh",
+    },
+}
