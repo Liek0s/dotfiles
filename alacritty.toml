@@ -1,0 +1,57 @@
+
+[window]
+decorations = "None"
+
+[font]
+normal = { family = "IosevkaTerm Nerd Font", style = "Regular"}
+bold = { family = "IosevkaTerm Nerd Font", style = "Bold"}
+italic = { family = "IosevkaTerm Nerd Font", style = "Italic"}
+bold_italic = { family = "IosevkaTerm Nerd Font", style = "Bold Italic"}
+
+size = 12
+
+[colors]
+[colors.primary]
+foreground = "#c0Caf5"
+background = "#24283b"
+
+[colors.normal]
+black = "#1d202f"
+red = "#F7768E"
+yellow = "#E0AF68"
+green = "#9ECE6A"
+blue = "#7AA2F7"
+magenta = "#9A7ECC"
+cyan = "#4ABAAF"
+white = "#ACB0D0"
+
+[colors.bright]
+black = "#4E5173"
+red = "#E06C75"
+yellow = "#D19A66"
+green = "#98C379"
+blue = "#61AFEF"
+magenta = "#C678DD"
+cyan = "#56B6C2"
+white = "#ABB2BF"
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+
+[mouse]
+hide_when_typing = false
+
+[keyboard]
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "P"
+mods = "Control|Shift"
+
+[terminal]
+
+shell = "/usr/bin/zsh"
